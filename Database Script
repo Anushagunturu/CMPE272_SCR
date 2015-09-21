@@ -1,0 +1,194 @@
+--Student table creation
+CREATE TABLE "public"."students"
+(
+   student_id int PRIMARY KEY NOT NULL,
+   first_name varchar(50),
+   last_name varchar(50),
+   email varchar(355) NOT NULL,
+   password varchar(50) NOT NULL
+)
+;
+CREATE UNIQUE INDEX students_student_id_name_email_password_key ON "public"."students"
+(
+  first_name,
+  last_name,
+  email,
+  password
+)
+;
+CREATE UNIQUE INDEX students_pkey ON "public"."students"(student_id)
+;
+CREATE UNIQUE INDEX students_email_key ON "public"."students"(email)
+;
+
+
+--course table creation
+CREATE TABLE "public"."courses"
+(
+   course_id int PRIMARY KEY NOT NULL,
+   course_name varchar(50) NOT NULL,
+   amount numeric(19)
+)
+;
+CREATE UNIQUE INDEX courses_course_name_key ON "public"."courses"(course_name)
+;
+CREATE UNIQUE INDEX courses_pkey ON "public"."courses"(course_id)
+;
+
+
+-- books Table creation
+CREATE TABLE "public"."books"
+(
+   book_id int PRIMARY KEY NOT NULL,
+   book_name varchar(100)
+)
+;
+CREATE UNIQUE INDEX books_book_name_key ON "public"."books"(book_name)
+;
+CREATE UNIQUE INDEX books_pkey ON "public"."books"(book_id)
+;
+
+
+--curriculum table creation scripts
+CREATE TABLE "public"."curriculum"
+(
+   curriculum_id int PRIMARY KEY NOT NULL,
+   topic_name varchar(100) NOT NULL
+)
+;
+CREATE UNIQUE INDEX curriculum_pkey ON "public"."curriculum"(curriculum_id)
+;
+CREATE UNIQUE INDEX curriculum_topic_name_key ON "public"."curriculum"(topic_name)
+;
+
+--schedule table creation scripts
+CREATE TABLE "public"."schedule"
+(
+   schedule_id int PRIMARY KEY NOT NULL,
+   start_date timestamp NOT NULL,
+   end_date timestamp NOT NULL,
+   start_time time NOT NULL,
+   end_time time NOT NULL
+)
+;
+CREATE UNIQUE INDEX schedule_pkey ON "public"."schedule"(schedule_id)
+;
+CREATE UNIQUE INDEX schedule_start_date_end_date_start_time_end_time_key ON "public"."schedule"
+(
+  start_date,
+  end_date,
+  start_time,
+  end_time
+)
+;
+
+
+--student course table creation scripts
+CREATE TABLE "public"."student_course"
+(
+   student_course_id int PRIMARY KEY NOT NULL,
+   student_id int NOT NULL,
+   course_id int NOT NULL
+)
+;
+ALTER TABLE "public"."student_course"
+ADD CONSTRAINT student_course_student_id_fkey
+FOREIGN KEY (student_id)
+REFERENCES "public"."students"(student_id)
+;
+ALTER TABLE "public"."student_course"
+ADD CONSTRAINT student_course_course_id_fkey
+FOREIGN KEY (course_id)
+REFERENCES "public"."courses"(course_id)
+;
+CREATE UNIQUE INDEX student_course_student_id_course_id_key ON "public"."student_course"
+(
+  course_id,
+  student_id
+)
+;
+CREATE UNIQUE INDEX student_course_pkey ON "public"."student_course"(student_course_id)
+;
+
+
+--course_book table creation
+CREATE TABLE "public"."course_book"
+(
+   course_book_id int PRIMARY KEY NOT NULL,
+   book_id int NOT NULL,
+   course_id int NOT NULL
+)
+;
+ALTER TABLE "public"."course_book"
+ADD CONSTRAINT course_book_course_id_fkey
+FOREIGN KEY (course_id)
+REFERENCES "public"."courses"(course_id)
+;
+ALTER TABLE "public"."course_book"
+ADD CONSTRAINT course_book_book_id_fkey
+FOREIGN KEY (book_id)
+REFERENCES "public"."books"(book_id)
+;
+CREATE UNIQUE INDEX course_book_book_id_course_id_key ON "public"."course_book"
+(
+  book_id,
+  course_id
+)
+;
+CREATE UNIQUE INDEX course_book_pkey ON "public"."course_book"(course_book_id)
+;
+
+--course curriculum table creation
+CREATE TABLE "public"."course_curriculum"
+(
+   course_curriculum_id int PRIMARY KEY NOT NULL,
+   course_id int NOT NULL,
+   curriculum_id int NOT NULL
+)
+;
+ALTER TABLE "public"."course_curriculum"
+ADD CONSTRAINT course_curriculum_course_id_fkey
+FOREIGN KEY (course_id)
+REFERENCES "public"."courses"(course_id)
+;
+ALTER TABLE "public"."course_curriculum"
+ADD CONSTRAINT course_curriculum_curriculum_id_fkey
+FOREIGN KEY (curriculum_id)
+REFERENCES "public"."curriculum"(curriculum_id)
+;
+CREATE UNIQUE INDEX course_curriculum_course_id_curriculum_id_key ON "public"."course_curriculum"
+(
+  course_id,
+  curriculum_id
+)
+;
+CREATE UNIQUE INDEX course_curriculum_pkey ON "public"."course_curriculum"(course_curriculum_id)
+;
+
+--course schedule table creation scripts
+CREATE TABLE "public"."course_schedule"
+(
+   course_schedule_id int PRIMARY KEY NOT NULL,
+   course_id int NOT NULL,
+   schedule_id int NOT NULL,
+   count smallint
+)
+;
+ALTER TABLE "public"."course_schedule"
+ADD CONSTRAINT course_schedule_schedule_id_fkey
+FOREIGN KEY (schedule_id)
+REFERENCES "public"."schedule"(schedule_id)
+;
+ALTER TABLE "public"."course_schedule"
+ADD CONSTRAINT course_schedule_course_id_fkey
+FOREIGN KEY (course_id)
+REFERENCES "public"."courses"(course_id)
+;
+CREATE UNIQUE INDEX course_schedule_pkey ON "public"."course_schedule"(course_schedule_id)
+;
+CREATE UNIQUE INDEX course_schedule_course_id_schedule_id_key ON "public"."course_schedule"
+(
+  course_id,
+  schedule_id
+)
+;
