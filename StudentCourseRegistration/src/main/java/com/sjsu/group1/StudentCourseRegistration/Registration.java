@@ -39,6 +39,7 @@ public class Registration {
 		bookList.add(book);
 		Course course = new Course("Python", 250, scheduleList, bookList, curriculumList);
 		controller.addCourses(course);
+		System.out.println("Course Succesfully added ");
 	}
 	
 

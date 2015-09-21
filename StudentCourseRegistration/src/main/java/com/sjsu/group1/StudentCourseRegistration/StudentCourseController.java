@@ -56,6 +56,11 @@ public class StudentCourseController {
 
 	}
 
+	/*
+	 * This method adds course and its schedule 
+	 * books related to course and course curriculum
+	 * @param Course that needs to be added
+	 */
 	public void addCourses(Course course){
 		try{
 			course = dbAccess.addCourse(course);
