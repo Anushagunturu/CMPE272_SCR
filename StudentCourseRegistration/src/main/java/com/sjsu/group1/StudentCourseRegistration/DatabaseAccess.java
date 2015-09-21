@@ -261,6 +261,14 @@ public final class DatabaseAccess {
 		System.out.println(preparedStatement.toString());
 		result = preparedStatement.executeUpdate();
 	}
+	
+		public void dropCourse() throws SQLException {
+		System.out.println("Dropping the Course:");
+		preparedStatement = connection.prepareStatement(properties.getProperty("drop.student.course"));
+		resultSet = preparedStatement.executeQuery();
+		System.out.println("Course which has been dropped " + resultSet.getMetaData());
+	}
+
 
 	/*
 	 * Close the connections
