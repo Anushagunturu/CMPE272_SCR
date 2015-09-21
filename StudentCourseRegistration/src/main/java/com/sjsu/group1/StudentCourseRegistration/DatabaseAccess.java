@@ -223,6 +223,44 @@ public final class DatabaseAccess {
 		System.out.println(preparedStatement.toString());
 		result = preparedStatement.executeUpdate();
 	}
+	
+	public int getCurriculumID(Curriculum curriculum) throws SQLException {
+		System.out.println("Getting Schedule ID..");
+		preparedStatement = connection.prepareStatement(properties.getProperty("fetch.curriculum.id"));
+		preparedStatement.setString(1, curriculum.getTopicName());
+		resultSet = preparedStatement.executeQuery();
+		if (null != resultSet && resultSet.next())
+			result = resultSet.getInt(1);
+		return result;
+	}
+	
+	public void addCurriculumForCourse(String courseName, int curriculumId) throws SQLException {
+		preparedStatement = connection.prepareStatement(properties.getProperty("add.course.curriculum"),
+				PreparedStatement.RETURN_GENERATED_KEYS);
+		preparedStatement.setString(1, courseName);
+		preparedStatement.setInt(2, curriculumId);
+		System.out.println(preparedStatement.toString());
+		result = preparedStatement.executeUpdate();
+	}
+	
+	public int getBookID(Book book) throws SQLException {
+		System.out.println("Getting Schedule ID..");
+		preparedStatement = connection.prepareStatement(properties.getProperty("fetch.book.id"));
+		preparedStatement.setString(1, book.getBookName());
+		resultSet = preparedStatement.executeQuery();
+		if (null != resultSet && resultSet.next())
+			result = resultSet.getInt(1);
+		return result;
+	}
+	
+	public void addBookForCourse(String courseName, int bookId) throws SQLException {
+		preparedStatement = connection.prepareStatement(properties.getProperty("add.course.book"),
+				PreparedStatement.RETURN_GENERATED_KEYS);
+		preparedStatement.setInt(1, bookId);
+		preparedStatement.setString(2, courseName);
+		System.out.println(preparedStatement.toString());
+		result = preparedStatement.executeUpdate();
+	}
 
 	/*
 	 * Close the connections

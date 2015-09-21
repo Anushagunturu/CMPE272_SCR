@@ -11,6 +11,13 @@ public class Book {
 	private int bookID;
 	private String bookName;
 	/**
+	 * @param bookName
+	 */
+	public Book(String bookName) {
+		super();
+		this.bookName = bookName;
+	}
+	/**
 	 * @return the bookID
 	 */
 	public int getBookID() {
